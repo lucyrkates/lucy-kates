@@ -16,7 +16,7 @@
     --btn-ink:#264228;      /* filled-button text */
     --label:#e3dece;        /* section eyebrow labels */
     --gutter:22px;
-    --content:1040px;       /* Figma content width (1200 frame - 80 inset each side) */
+    --cw:1040px;            /* content width; overridden per version below */
   }
   *{ box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
@@ -34,6 +34,11 @@
   .view{ display:none; }
   body[data-view="v1"] .view.v1,
   body[data-view="v2"] .view.v2{ display:flex; }
+
+  /* content width per version: V1 is wider (bigger embed) and lines up with
+     the work section; V2 lines up with the two cards */
+  body[data-view="v1"]{ --cw:1120px; }
+  body[data-view="v2"]{ --cw:1040px; }
 
   .view{
     position:relative; width:100%;
@@ -53,7 +58,7 @@
   /* centered content frame (matches the 1040 Figma content area) */
   .frame{
     position:relative; z-index:1;
-    width:min(var(--content), calc(100% - 2*var(--gutter)));
+    width:min(var(--cw), calc(100% - 2*var(--gutter)));
     margin-inline:auto;
     padding-block:64px;
   }
@@ -64,9 +69,10 @@
     font-size:32px; line-height:1.1; opacity:.9; margin:0;
   }
   .eyebrow{
+    /* same styling as the .job-date text, but uppercase */
     font-family:'Cabin', system-ui, sans-serif; font-weight:400;
-    font-size:17.5px; letter-spacing:.5px; text-transform:uppercase;
-    color:var(--label); opacity:.5; margin:0;
+    font-size:14px; letter-spacing:.28px; text-transform:uppercase;
+    color:var(--ink); opacity:.6; margin:0;
   }
   .bio{ font-size:16px; line-height:1.45; letter-spacing:-0.32px; opacity:.9; margin:0; }
   .bio-multi{ display:flex; flex-direction:column; }
@@ -133,9 +139,11 @@
   .work{
     position:relative; background:#20381f;
     border-top:1px solid rgba(236,238,229,.14);
-    padding:72px var(--gutter) 88px;
+    padding:72px 0 88px;
   }
-  .work-inner{ max-width:1120px; margin:0 auto; }
+  /* same width + centering as .frame, so the work section lines up with the
+     hero content of whichever version is active */
+  .work-inner{ width:min(var(--cw), calc(100% - 2*var(--gutter))); margin-inline:auto; }
   .work-head{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:22px; }
   .work-head h2{ font-family:'Cabin', system-ui, sans-serif; font-weight:700; font-size:24px; opacity:.9; margin:0; }
   .figma-link{ display:inline-flex; align-items:center; gap:5px; font-family:'Cabin', system-ui, sans-serif; font-size:15px; letter-spacing:.32px; color:var(--ink); opacity:.8; text-decoration:none; transition:opacity .18s ease; }
@@ -160,7 +168,7 @@
     .bio{ font-size:15px; }
     .links{ flex-direction:column; align-items:flex-start; }
     .frame{ padding-block:48px; }
-    .work{ padding:48px var(--gutter) 60px; }
+    .work{ padding:48px 0 60px; }
   }
 </style>
 </head>
